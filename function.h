@@ -17,3 +17,6 @@ std::vector<std::vector<double>> choleskyDecomposition(std::vector<std::vector<d
 std::vector<std::vector<double>> transposition(std::vector<std::vector<double>>&);
 std::vector<double> solveY(std::vector<std::vector<double>>&, std::vector<double>&);
 std::vector<double> solveX(std::vector<std::vector<double>>&, std::vector<double>&);
+
+std::vector<double> jacobiMethod(std::vector<std::vector<double>>&,std::vector<double>&);
+std::vector<double> gaussSiedel(std::vector<std::vector<double>>&, std::vector<double>&);

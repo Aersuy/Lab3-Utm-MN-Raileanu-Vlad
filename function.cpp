@@ -212,3 +212,34 @@ std::vector<double> jacobiMethod(std::vector<std::vector<double>>& matrix,std::v
     } while (checkError(current,previous));
     return current;
 }
+
+std::vector<double> gaussSiedel(std::vector<std::vector<double>>& matrix, std::vector<double>& b)
+{
+    std::vector<double> previous(size,0);
+    std::vector<double> current(size,0);
+    int iteratii {0};
+    do
+    { iteratii++;
+      previous = current;
+      std::cout << "Iteratia " << iteratii << '\n';
+      std::cout << "Iteratia trecuta : \n";
+      printVector(previous);
+      for (int iterator = 0; iterator < size; iterator++)
+      {
+        double sum{0};
+        double sum2{0};
+        for (int iterator2 = iterator + 1; iterator2 < size; iterator2++)
+        {
+              sum+= matrix[iterator][iterator2] * current[iterator2];
+        }
+        
+        for (int iterator2 = 0; iterator2 < iterator; iterator2++)
+        {
+                sum2+= matrix[iterator][iterator2] * previous[iterator2];
+        }
+        current[iterator] = (b[iterator] - sum - sum2)/matrix[iterator][iterator];
+      }
+        
+    } while (checkError(current,previous));
+    return current;
+}
