@@ -83,7 +83,7 @@ std::vector<double> gaussianElimination(std::vector<std::vector<double>> matrix,
     return vector;
 }
 
-std::vector<std::vector<double>> choleskyDecomposition(std::vector<std::vector<double>> matrix)
+std::vector<std::vector<double>> choleskyDecomposition(std::vector<std::vector<double>>& matrix)
 { 
     std::vector<std::vector<double>> L(size,std::vector<double>(size,0));
      for (int iterator1 = 0; iterator1 < size; iterator1++)
@@ -133,7 +133,7 @@ std::vector<std::vector<double>> transposition(std::vector<std::vector<double>>&
     return transposedM;
 }
 
-std::vector<double> solveY(std::vector<std::vector<double>>& L, std::vector<double> b)
+std::vector<double> solveY(std::vector<std::vector<double>>& L, std::vector<double>& b)
 {
     std::vector<double> solution(size,0);
     for (int iterator1 = 0; iterator1 < size; iterator1++)
@@ -146,7 +146,7 @@ std::vector<double> solveY(std::vector<std::vector<double>>& L, std::vector<doub
     }
     return solution;
 }
-std::vector<double> solveX(std::vector<std::vector<double>>& L, std::vector<double> b)
+std::vector<double> solveX(std::vector<std::vector<double>>& L, std::vector<double>& b)
 {
     std::vector<double> solution(size,0);
     for (int iterator1 = size - 1; iterator1 >= 0; iterator1--)
@@ -158,4 +158,57 @@ std::vector<double> solveX(std::vector<std::vector<double>>& L, std::vector<doub
         solution[iterator1] = (b[iterator1] - sum)/L[iterator1][iterator1];
     }
     return solution;
+}
+
+void copyVector(std::vector<double>& copied, std::vector<double>& copy)
+{
+    for (int iterator = 0; iterator < size; iterator++)
+    {
+       copy[iterator] = copied[iterator];  
+    }
+    
+}
+bool checkError(std::vector<double>& firstVector, std::vector<double>& secondVector)
+{
+    for(int iterator = 0; iterator < size; iterator++)
+    {
+        if (fabs(firstVector[iterator]-secondVector[iterator]) > error)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return false;
+}
+
+std::vector<double> jacobiMethod(std::vector<std::vector<double>>& matrix,std::vector<double>& b)
+{
+    std::vector<double> previous(size,0);
+    std::vector<double> current(size,0);
+    int iteratii {0};
+    do
+    { iteratii++;
+      previous = current;
+      std::cout << "Iteratia " << iteratii << '\n';
+      std::cout << "Iteratia trecuta : \n";
+      printVector(previous);
+      for (int iterator = 0; iterator < size; iterator++)
+      {
+        double sum{0};
+        for (int iterator2 = 0; iterator2 < size; iterator2++)
+        {
+            if (iterator != iterator2) // nu e diagonala principala
+            {
+                sum+= matrix[iterator][iterator2] * previous[iterator2];
+            }
+            
+        }
+        current[iterator] = (b[iterator] - sum)/matrix[iterator][iterator];
+      }
+        
+    } while (checkError(current,previous));
+    return current;
 }
