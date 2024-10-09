@@ -44,3 +44,40 @@ void fillVector(std::vector<double>& vector)
     std::cout << '\n';
 
 }
+
+void gaussianElimination(std::vector<std::vector<double>>& matrix,std::vector<double>& vector)
+{
+    for (int iterator = 0; iterator < size; iterator++)
+    {
+        double pivot = matrix[iterator][iterator];
+        if (pivot == 0.0)
+        {
+            std::cout << "Matricea e singulara sau aproape singulara \n";
+            return;
+        }
+        for (int iterator2 = iterator; iterator2 < size; iterator2++)
+        {
+            matrix[iterator][iterator2] /= pivot;
+        }
+        vector[iterator] /= pivot;
+
+        for (int iterator2 = iterator + 1; iterator2 < size; iterator2++)
+        {
+            double factor = matrix[iterator2][iterator];
+            for (int iterator3 = iterator; iterator3 < size; iterator3++)
+            {
+                matrix[iterator2][iterator3] -= factor * matrix[iterator][iterator3];
+            }
+            vector[iterator2] -= factor * vector[iterator];
+        }
+        
+        
+    }
+     for (int i = size - 1; i >= 0; --i)
+    {
+        for (int j = i + 1; j < size; ++j)
+        {
+            vector[i] -= matrix[i][j] * vector[j];
+        }
+    }
+}

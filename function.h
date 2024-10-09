@@ -5,3 +5,5 @@ void printVector(const std::vector<double>&);
 void printMatrix(const std::vector<std::vector<double>>& );
 void fillMatrix(std::vector<std::vector<double>>&);
 void fillVector(std::vector<double>&);
+
+void gaussianElimination(std::vector<std::vector<double>>&, std::vector<double>&);

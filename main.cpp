@@ -10,5 +10,9 @@ int main()
      printVector(vector);
     fillMatrix(matrix);
     printMatrix(matrix);
- 
+     gaussianElimination(matrix,vector);
+
+     printMatrix(matrix);
+     printVector(vector);
+
 }
