@@ -10,13 +10,13 @@ int main()
         {1.3, 2.1, 20.3, 1.2},
         {-0.4, 0.7, 1.2, 19.4}
     };
+     std::vector<double> b = {20.3, -14.6, 8.9, 11.3};
+   std::vector<std::vector<double>> L = choleskyDecomposition(matrix);
+   printMatrix(L);
 
-    std::vector<double> vector = {20.3, -14.6, 8.9, 11.3};
-   
-     printVector(vector);
+   std::vector<std::vector<double>> tL = transposition(L);
+   std::vector<double> y = solveY(L,b);
+   std::vector<double> x = solveX(tL,y);
 
-    printMatrix(matrix);
-     std::vector<double> answers = gaussianElimination(matrix,vector);
-
-     printVector(answers);
+   printVector(x);
 }

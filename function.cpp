@@ -1,6 +1,6 @@
 #include "function.h"
 #include <iostream>
-
+#include <math.h>
 void printVector(const std::vector<double>& vector)
 {
     for(int iterator = 0; iterator < size; iterator++)
@@ -81,4 +81,81 @@ std::vector<double> gaussianElimination(std::vector<std::vector<double>> matrix,
         }
     }
     return vector;
+}
+
+std::vector<std::vector<double>> choleskyDecomposition(std::vector<std::vector<double>> matrix)
+{ 
+    std::vector<std::vector<double>> L(size,std::vector<double>(size,0));
+     for (int iterator1 = 0; iterator1 < size; iterator1++)
+     {
+        for (int iterator2 = 0; iterator2 <= iterator1; iterator2++)
+        {  double sum{0};
+            if (iterator1 == iterator2)
+            {
+                for (int iterator3 = 0; iterator3 < iterator2; iterator3++)
+                {
+                   sum +=L[iterator2][iterator3]*L[iterator2][iterator3];
+                }
+                L[iterator2][iterator2] = sqrt(matrix[iterator2][iterator2] - sum);
+                if (L[iterator2][iterator2] < 0)
+                {
+                    std::cerr << "Matricea nu e definita positiv \n";
+                    return matrix;
+                }
+            } 
+            else
+            {
+                for (int iterator3 = 0; iterator3 < iterator2; iterator3++)
+                {
+                  sum += L[iterator1][iterator3]* L[iterator2][iterator3];
+                }
+                
+                L[iterator1][iterator2] = (matrix[iterator1][iterator2] - sum) / L[iterator2][iterator2];
+            }
+            
+            
+        }
+        
+     }
+     return L;
+}
+std::vector<std::vector<double>> transposition(std::vector<std::vector<double>>& matrix)
+{
+    std::vector<std::vector<double>> transposedM (size,std::vector<double>(size,0));
+    for (int iterator1 = 0; iterator1 < size; iterator1++)
+    {
+        for (int iterator2 = 0; iterator2 < size; iterator2++)
+        {
+            transposedM[iterator2][iterator1] = matrix[iterator1][iterator2];
+        }
+        
+    }
+    return transposedM;
+}
+
+std::vector<double> solveY(std::vector<std::vector<double>>& L, std::vector<double> b)
+{
+    std::vector<double> solution(size,0);
+    for (int iterator1 = 0; iterator1 < size; iterator1++)
+    {double sum{0};
+        for (int iterator2 = 0; iterator2 < iterator1; iterator2++)
+        {
+            sum += L[iterator1][iterator2] * solution[iterator2];
+        }
+        solution[iterator1] = (b[iterator1] - sum)/L[iterator1][iterator1];
+    }
+    return solution;
+}
+std::vector<double> solveX(std::vector<std::vector<double>>& L, std::vector<double> b)
+{
+    std::vector<double> solution(size,0);
+    for (int iterator1 = size - 1; iterator1 >= 0; iterator1--)
+    {double sum{0};
+        for (int iterator2 = iterator1 + 1; iterator2 < iterator1; iterator2++)
+        {
+            sum += L[iterator1][iterator2] * solution[iterator2];
+        }
+        solution[iterator1] = (b[iterator1] - sum)/L[iterator1][iterator1];
+    }
+    return solution;
 }
