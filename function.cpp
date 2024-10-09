@@ -1,11 +1,12 @@
 #include "function.h"
 #include <iostream>
 #include <math.h>
+#include <iomanip>
 void printVector(const std::vector<double>& vector)
 {
     for(int iterator = 0; iterator < size; iterator++)
     {
-        std::cout << vector[iterator] << ' ';
+        std::cout << std::setprecision(10) << vector[iterator] << ' ';
     }
     std::cout << '\n';
     
@@ -16,7 +17,7 @@ void printMatrix(const std::vector<std::vector<double>>& matrix )
      {
         for (int iterator2 = 0; iterator2 < size; iterator2++)
         {
-            std::cout << matrix[iterator][iterator2] << ' ';
+            std::cout << std::setprecision(10) << matrix[iterator][iterator2] << ' ';
         }
         std::cout << "\n";
      }
@@ -80,6 +81,8 @@ std::vector<double> gaussianElimination(std::vector<std::vector<double>> matrix,
             vector[i] -= matrix[i][j] * vector[j];
         }
     }
+    std::cout << "Matricea triunghilara : \n";
+    printMatrix(matrix);
     return vector;
 }
 
@@ -151,7 +154,7 @@ std::vector<double> solveX(std::vector<std::vector<double>>& L, std::vector<doub
     std::vector<double> solution(size,0);
     for (int iterator1 = size - 1; iterator1 >= 0; iterator1--)
     {double sum{0};
-        for (int iterator2 = iterator1 + 1; iterator2 < iterator1; iterator2++)
+        for (int iterator2 = iterator1 + 1; iterator2 < size; iterator2++)
         {
             sum += L[iterator1][iterator2] * solution[iterator2];
         }
